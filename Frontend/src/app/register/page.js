@@ -33,7 +33,7 @@ export default function Register() {
       console.log("Server Response:", response.data);
 
       if (response.data.message === "Registered successfully") {
-        alert(response.data);
+        alert(response.data.message);
         router.push("/login"); // Redirect to login page
       } else {
         alert(response.data.message);

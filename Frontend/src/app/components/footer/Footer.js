@@ -23,7 +23,9 @@ export default function Footer() {
                         <Link href="/about-us">About Us</Link>
                         <Link href="/contact">Contact</Link>
                     </div>
+                    <div></div>
                 </div>
+                
             </footer>
 
             {/* Copyright Section */}

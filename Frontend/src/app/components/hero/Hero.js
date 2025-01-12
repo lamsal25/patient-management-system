@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import React from 'react'
 
 export default function Hero() {
@@ -16,15 +17,15 @@ export default function Hero() {
                             Welcome to the Patient Record Management System! Here, we securely maintain patient records and medical history, ensuring seamless access and better care during future visits.
                         </p>
                         <div className="mt-5 sm:flex md:mt-8">
-                            <div className="rounded-md shadow"><a href=""
+                            <div className="rounded-md shadow"><Link href="/create"
                                 className="flex items-center justify-center w-full px-8 py-3 text-base font-medium leading-6 text-white transition duration-150 ease-in-out bg-blue-500 border border-transparent rounded-md hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue md:py-4 md:text-lg md:px-10">
-                                Get started
-                            </a></div>
+                                Insert Patient Data
+                            </Link></div>
                             <div className="mt-3 rounded-md shadow sm:mt-0 sm:ml-3">
-                                <a href=""
+                                <Link href="/patient-details"
                                     className="flex items-center justify-center w-full px-8 py-3 text-base font-medium leading-6 text-blue-500 transition duration-150 ease-in-out bg-white border border-transparent rounded-md hover:text-blue-600 focus:outline-none focus:shadow-outline-blue md:py-4 md:text-lg md:px-10">
                                     See detail
-                                </a>
+                                </Link>
                             </div>
                         </div>
                     </div>

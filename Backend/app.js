@@ -6,7 +6,7 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
 const cors = require("cors");
-const { users } = require('./models/database');
+const { users, medicalHistories, patients } = require('./models/database');
 app.use(cors({
     origin: 'http://localhost:3000', // Your frontend URL
     credentials: true // Allow cookies to be sent with requests
@@ -49,46 +49,88 @@ app.post("/api/register", async (req, res) => {
 });
 
 /// Login ////
-app.post("/api/login", async(req,res)=>{
-    const {email, password} =req.body;
-try{ 
-    console.log(req.body)
-    const user = await users.findOne({where: { email }});
-    
-    if(!user){
-      return res.json({
-            message:"No email registerd"
-        })
+app.post("/api/login", async (req, res) => {
+    const { email, password } = req.body;
+    try {
+        console.log(req.body)
+        const user = await users.findOne({ where: { email } });
+
+        if (!user) {
+            return res.json({
+                message: "No email registerd"
+            })
+        }
+
+        const isMathched = bcrypt.compareSync(password, user.password)
+
+        if (isMathched) {
+            const token = jwt.sign({ id: user.id, username: user.username, }, process.env.PRIVATEKEY, {
+                expiresIn: '10'
+
+            })
+            console.log("generated token: ", token)
+            res.cookie('token', token, {
+                httpOnly: true,
+                sameSite: 'strict', // Prevent CSRF attacks
+                maxAge: 60 * 60 * 1000
+            })
+            res.json({
+                message: 'login success'
+            })
+        } else {
+            res.json({
+                message: "Incorrect password"
+            })
+        }
+
+    } catch (error) {
+        console.error("Error during Login")
+        res.status(500).json({ message: "Error occured during Login" })
     }
-
-    const isMathched = bcrypt.compareSync(password,user.password)
-
-    if(isMathched){
-        const token = jwt.sign({id:user.id, username: user.username,},process.env.PRIVATEKEY,{
-            expiresIn: '10'
-
-        })
-console.log("generated token: ", token)
-        res.cookie('token', token,{
-            httpOnly: true,
-            sameSite: 'strict', // Prevent CSRF attacks
-            maxAge: 60 * 60 * 1000
-        })
-        res.json({
-            message: 'login success'
-        })
-    }else{
-        res.json({
-            message: "Incorrect password"
-        })
-    }
-
-}catch(error){
-    console.error("Error during Login")
-    res.status(500).json({message: "Error occured during Login"})
-}
 })
 
+
+// cretae patient data ///// ***************************************************
+
+app.post("/api/patients", async (req, res) => {
+    console.log("Patient details: ", req.body)
+    try {
+        const { name, email, age, sex, address } = req.body
+        const medical = req.body.medicalHistories
+        console.log("medical: ", medical)
+
+        console.log(address, email, medical.medicines, medical.date)
+
+        // Access the medical histories
+        medical.forEach((history, index) => {
+            console.log(`Medical History ${index + 1}:`);
+            console.log(`  Condition: ${history.condition}`);
+            console.log(`  Medicines: ${history.medicines}`);
+            console.log(`  Date: ${history.date}`);
+        });
+        // Save the data to the database (example: Sequelize ORM)
+        const patient = await patients.create({
+            name,
+            email,
+            age,
+            sex,
+            address,
+        });
+
+        //save in the databse:
+        // Save medical histories for the patient
+        const histories = medical.map((history) => ({
+            ...history, patientId: patient.id, // Foreign key reference
+        }));
+        await medicalHistories.bulkCreate(histories);
+
+    } catch (error) {
+        console.log("error aayo ta k vo", error)
+    }
+
+
+    res.status(200).json({ message: "User created" })
+})
 
 app.listen(8080)
 

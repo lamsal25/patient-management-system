@@ -4,7 +4,6 @@ const databseConfig = require('../config/dbConfig')
 const databaseConfig = require("../config/dbConfig")
 
 const usertable = require("./userTable")
-const patientTable = require("./patientTable")
 const patienttable = require("./patientTable")
 const medicalHistories = require("./medicalHistory")
 const sequelize = new Sequelize(
@@ -36,8 +35,11 @@ db.sequelize = sequelize
 
 
 db.users = usertable(sequelize, DataTypes)
+
 db.patients = patienttable(sequelize, DataTypes)
 db.medicalHistories = medicalHistories(sequelize,DataTypes)
+
+
 
 db.sequelize.sync({force:false})
     .then(()=>{

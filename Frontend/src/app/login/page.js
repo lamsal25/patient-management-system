@@ -69,8 +69,8 @@ export default function Login() {
 
                         {error && <div className="text-red-500 text-center mb-4">{error}</div>}
                         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="first_name">
-              Email:
-            </label>
+                            Email:
+                        </label>
                         <form onSubmit={handleSubmit}>
                             <input
                                 className="p-2 mb-4 rounded w-[100%] focus:outline-blue-600 border-gray-500 border-2"
@@ -80,10 +80,10 @@ export default function Login() {
                                 value={email}
                                 onChange={(e) => setemail(e.target.value)}
                             />
- <label className=" mt-6 block text-gray-700 text-sm font-bold mb-2" htmlFor="first_name">
-              Password:
-            </label>
-                           <input
+                            <label className=" mt-6 block text-gray-700 text-sm font-bold mb-2" htmlFor="first_name">
+                                Password:
+                            </label>
+                            <input
                                 className="p-2 mb-4 rounded w-[100%] focus:outline-blue-600 border-gray-500 border-2"
                                 placeholder="example@123"
                                 type="password"

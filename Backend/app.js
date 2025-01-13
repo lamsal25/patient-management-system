@@ -6,7 +6,8 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
 const cors = require("cors");
-const { users, medicalHistories, patients } = require('./models/database');
+const { users, medicalHistories, patients, Patient, MedicalHistory } = require('./models/database');
+
 app.use(cors({
     origin: 'http://localhost:3000', // Your frontend URL
     credentials: true // Allow cookies to be sent with requests
@@ -99,7 +100,7 @@ app.post("/api/patients", async (req, res) => {
         const medical = req.body.medicalHistories
         console.log("medical: ", medical)
 
-        console.log(address, email, medical.medicines, medical.date)
+        console.log(address, email)
 
         // Access the medical histories
         medical.forEach((history, index) => {
@@ -131,6 +132,33 @@ app.post("/api/patients", async (req, res) => {
 
     res.status(200).json({ message: "User created" })
 })
+
+// read the data from database
+app.post('/api/read/:id', async (req, res) => {
+    try {
+        const patid = req.params.id;
+        console.log(patid)
+        const pat = await patients.findOne({
+            where: { id: patid }
+            ,include: [{ model: medicalHistories, as: 'medicalHistories' }], // Alias matches `as` in the association
+        });
+        console.log(pat)
+
+        // const med = await medicalHistories.findOne({
+        //     where: { patientId: patid }
+        // })
+
+        // console.log(med)
+        if (!pat) {
+            return res.status(404).json({ error: 'Patient not found' });
+        }
+        res.status(200).json(pat);
+    } catch (error) { 
+        console.error('Error:', error);
+        res.status(500).json({ error: 'Failed to fetch patient data' });
+    }
+});
+
 
 app.listen(8080)
 

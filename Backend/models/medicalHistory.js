@@ -1,5 +1,5 @@
 const medicalHistories = (sequelize, DataTypes) => {
-  const MedicalHistory = sequelize.define('MedicalHistory', {
+  const MedicalHistory = sequelize.define('medicalHistory', {
     condition: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -16,14 +16,14 @@ const medicalHistories = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'Patients', // Name of the target table
+        model: 'patients', // Name of the target table
         key: 'id',         // Key in the target table
       },
     },
   });
 
   MedicalHistory.associate = (models) => {
-    MedicalHistory.belongsTo(models.Patient, {
+    MedicalHistory.belongsTo(models.patients, {
       foreignKey: 'patientId',
       as: 'Patient',
     });

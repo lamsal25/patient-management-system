@@ -9,9 +9,9 @@ const patienttable = (sequelize, DataTypes) => {
   });
 
   Patient.associate = (models) => {
-    Patient.hasMany(models.MedicalHistory, {
+    Patient.hasMany(models.medicalHistories, {
       foreignKey: 'patientId',
-      as: 'medicalHistories',
+      as: 'medicalHistory',
     });
   };
 

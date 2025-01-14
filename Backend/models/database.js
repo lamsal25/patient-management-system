@@ -39,6 +39,13 @@ db.users = usertable(sequelize, DataTypes)
 db.patients = patienttable(sequelize, DataTypes)
 db.medicalHistories = medicalHistories(sequelize,DataTypes)
 
+// Call associate only after defining both models
+if (db.patients.associate) {
+    db.patients.associate(db);
+}
+if (db.medicalHistories.associate) {
+    db.medicalHistories.associate(db);
+}
 
 
 db.sequelize.sync({force:false})

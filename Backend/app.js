@@ -140,15 +140,15 @@ app.post('/api/read/:id', async (req, res) => {
         console.log(patid)
         const pat = await patients.findOne({
             where: { id: patid }
-            ,include: [{ model: medicalHistories, as: 'medicalHistories' }], // Alias matches `as` in the association
+            ,include: [{ model: medicalHistories, as: 'medicalHistory' }], // Alias matches `as` in the association
         });
         console.log(pat)
 
         // const med = await medicalHistories.findOne({
         //     where: { patientId: patid }
         // })
-
         // console.log(med)
+ 
         if (!pat) {
             return res.status(404).json({ error: 'Patient not found' });
         }

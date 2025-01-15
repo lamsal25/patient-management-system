@@ -22,7 +22,7 @@ export default function Hero() {
                                 Insert Patient Data
                             </Link></div>
                             <div className="mt-3 rounded-md shadow sm:mt-0 sm:ml-3">
-                                <Link href="/patient-details"
+                                <Link href="/patientRecord"
                                     className="flex items-center justify-center w-full px-8 py-3 text-base font-medium leading-6 text-blue-500 transition duration-150 ease-in-out bg-white border border-transparent rounded-md hover:text-blue-600 focus:outline-none focus:shadow-outline-blue md:py-4 md:text-lg md:px-10">
                                     See detail
                                 </Link>

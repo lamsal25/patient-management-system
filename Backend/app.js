@@ -7,6 +7,7 @@ const jwt = require('jsonwebtoken')
 
 const cors = require("cors");
 const { users, medicalHistories, patients, Patient, MedicalHistory } = require('./models/database');
+const { where } = require('sequelize');
 
 app.use(cors({
     origin: 'http://localhost:3000', // Your frontend URL
@@ -159,6 +160,30 @@ app.post('/api/read/:id', async (req, res) => {
     }
 });
 
+
+///  Extracting all patients records ///
+app.post("/api/allRecord", async(req, res)=>{
+   const data = await patients.findAll( {include:[{ model: medicalHistories, as: 'medicalHistory' }]})
+   console.log(data)
+   res.status(200).json(data)
+})
+
+/// Delete data ///
+app.delete("/api/delete/:id", async(req,res)=>{
+    console.log(req.params.id)
+    const data = req.params.id
+    console.log("Delete data: ",data)
+
+try {
+    await patients.destroy({
+        where: { id: data }, // Specify the patient ID to delete
+      });
+      res.status(200).json({ message :"Delete Successful"})
+} catch (error) {
+    console.log("Error", error)
+}
+})
+  
 
 app.listen(8080)
 

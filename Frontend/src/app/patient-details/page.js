@@ -2,24 +2,23 @@
 
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useRouter } from 'next/navigation'; // Import useRouter
+import { useRouter } from 'next/navigation';
 
 export default function PatientDetails() {
-  const [patient, setPatient] = useState(null); // Stores patient data
-  const [showDetails, setShowDetails] = useState(false); // Toggle detailed info
-  const router = useRouter(); // Access router for navigation
+  const [patient, setPatient] = useState(null);
+  const router = useRouter();
 
-  // Fetch patient data
   useEffect(() => {
     const fetchPatient = async () => {
       try {
-        const response = await axios.post('http://localhost:8080/api/read/1', {
-          headers: { 'Content-Type': 'application/json' },
-        });
+        const response = await axios.post(
+          'http://localhost:8080/api/read/1',
+          {}, // Empty body
+          { headers: { 'Content-Type': 'application/json' } }
+        );
 
         if (response.status === 200) {
-          console.log('Patient data:', response.data);
-          setPatient(response.data); // Store the patient data
+          setPatient(response.data);
         } else {
           throw new Error('Failed to fetch patient data');
         }
@@ -31,10 +30,10 @@ export default function PatientDetails() {
     fetchPatient();
   }, []);
 
-  // Navigate to detailed info page when "View Details" button is clicked
   const handleViewClick = () => {
-    router.push(`/patient/${patient.id}`); // Redirect to detailed info page with patient id
-    console.log(patient.id )
+    if (patient) {
+      router.push(`/patient/${patient.id}`);
+    }
   };
 
   return (
@@ -42,19 +41,17 @@ export default function PatientDetails() {
       <h1 className="text-3xl font-bold mb-4">Patient Information</h1>
       {patient ? (
         <div className="bg-white shadow-lg rounded-lg p-6 space-y-4 border">
-          {/* Basic Info */} 
           <div>
             <h2 className="text-xl font-semibold">Basic Info</h2>
-            <div className='flex items-center gap-x-4 border p-4 mt-4 justify-between'>
-              <div className='flex items-center gap-x-4'>
-                <p className="flex items-center">
+            <div className="flex items-center gap-x-4 border p-4 mt-4 justify-between">
+              <div className="flex items-center gap-x-4">
+                <p>
                   <strong>Name:</strong> {patient.name}
                 </p>
-                <p className="flex items-center">
+                <p>
                   <strong>Email:</strong> {patient.email}
                 </p>
               </div>
-              {/* View Details Button */}
               <button
                 onClick={handleViewClick}
                 className="px-4 py-2 bg-blue-500 text-white rounded"

@@ -12,6 +12,7 @@ const patienttable = (sequelize, DataTypes) => {
     Patient.hasMany(models.medicalHistories, {
       foreignKey: 'patientId',
       as: 'medicalHistory',
+      onDelete : 'CASCADE',   //helps in deleteing and editing. On deleteing/ updating the parent data, related child components are automatically deleted/updated
     });
   };
 

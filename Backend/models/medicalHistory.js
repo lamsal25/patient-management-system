@@ -26,8 +26,9 @@ const medicalHistories = (sequelize, DataTypes) => {
     MedicalHistory.belongsTo(models.patients, {
       foreignKey: 'patientId',
       as: 'Patient',
-      onDelete : 'CASCADE',   //helps in deleteing and editing. On deleteing/ updating the parent data, related child components are automatically deleted/updated
-
+      onUpdate: 'CASCADE',
+      onDelete: 'CASCADE',   //helps in deleteing and editing. On deleteing/ updating the parent data, related child components are automatically deleted/updated
+      
     });
   };
 

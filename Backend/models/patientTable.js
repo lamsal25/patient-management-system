@@ -1,6 +1,7 @@
 // models/Patient.js
 const patienttable = (sequelize, DataTypes) => {
   const Patient = sequelize.define('Patient', {  //patient is the databse name
+    
     name: DataTypes.STRING,
     email: DataTypes.STRING,
     age: DataTypes.INTEGER,
@@ -12,7 +13,8 @@ const patienttable = (sequelize, DataTypes) => {
     Patient.hasMany(models.medicalHistories, {
       foreignKey: 'patientId',
       as: 'medicalHistory',
-      onDelete : 'CASCADE',   //helps in deleteing and editing. On deleteing/ updating the parent data, related child components are automatically deleted/updated
+      onUpdate: 'CASCADE',  //helps in deleteing and editing. On deleteing/ updating the parent data, related child components are automatically deleted/updated
+      onDelete : 'CASCADE',
     });
   };
 

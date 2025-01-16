@@ -12,7 +12,7 @@ export default function PatientDetails() {
     const fetchPatient = async () => {
       try {
         const response = await axios.post(
-          'http://localhost:8080/api/read/1',
+          'http://localhost:8080/api/read/9',
           {}, // Empty body
           { headers: { 'Content-Type': 'application/json' } }
         );

@@ -50,7 +50,9 @@ export default function PatientRecord() {
             }
         };
     }
-
+    const handleEdit = (id) => {
+        router.push(`/editData/${id}`); // Dynamically pass the patient's id
+    };
     return (
         <div className="container mx-auto p-6">
             <h1 className="text-3xl font-bold mb-4">Patient Records</h1>
@@ -64,7 +66,7 @@ export default function PatientRecord() {
                         >
                             <div>
                                 <h2 className="text-xl font-semibold">Basic Info</h2>
-                                <div className="flex items-center gap-x-4 border p-4 mt-4 justify-between">
+                                <div className="flex flex-wrap items-center gap-x-4 border p-4 mt-4 justify-between ">
                                     <div className="flex flex-col">
                                         <p>
                                             <strong>Name:</strong> {patient.name}
@@ -80,11 +82,18 @@ export default function PatientRecord() {
                                         View Details
                                     </button>
                                     <button
+                                        onClick={() => handleEdit(patient.id)} // Pass id here
+                                        className="px-4 py-2 bg-green-500 text-white rounded"
+                                    >
+                                       Edit
+                                    </button>
+                                    <button
                                         onClick={() => handleDelete(patient.id)} // Pass id here
                                         className="px-4 py-2 bg-red-500 text-white rounded"
                                     >
                                         Delete
                                     </button>
+                                    
                                 </div>
                             </div>
                         </div>

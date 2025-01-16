@@ -6,8 +6,8 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
 const cors = require("cors");
-const { users, medicalHistories, patients, Patient, MedicalHistory } = require('./models/database');
-const { where } = require('sequelize');
+const { users, medicalHistories, patients } = require('./models/database');
+ 
 
 app.use(cors({
     origin: 'http://localhost:3000', // Your frontend URL
@@ -184,6 +184,74 @@ try {
 }
 })
   
+
+// edit data //
+app.put("/api/update/:id", async (req, res) => {
+    const ID = req.params.id;
+    const { name, email, age, sex, address, medical } = req.body;
+    console.log("Received update data:", req.body);
+  
+    try {
+      // First update patient data
+      const updatedPatient = await patients.update({
+        name,
+        email,
+        age,
+        sex,
+        address
+      }, {
+        where: { id: ID }
+      });
+
+      // Handle medical histories updates
+      if (medical && medical.length > 0) {
+        for (const history of medical) {
+          if (history.id) {
+            // Update existing medical history
+            await medicalHistories.update({
+              condition: history.condition,
+              medicines: history.medicines,
+              date: history.date
+            }, {
+              where: {
+                id: history.id,
+                patientId: ID
+              }
+            });
+          } else {
+            // Create new medical history
+            await medicalHistories.create({
+              patientId: ID,
+              condition: history.condition,
+              medicines: history.medicines,
+              date: history.date
+            });
+          }
+        }
+      }
+
+      // Fetch the updated data using the same structure as your working read endpoint
+      const updatedData = await patients.findOne({
+        where: { id: ID },
+        include: [{ 
+          model: medicalHistories, 
+          as: 'medicalHistory' 
+        }]
+      });
+console.log("updated data",updatedData)
+      res.status(200).json({
+        message: "Update successful",
+        data: updatedData
+      });
+
+    } catch (error) {
+      console.error("Error updating:", error);
+      res.status(500).json({
+        message: "Server error",
+        error: error.message
+      });
+    }
+});
 
 app.listen(8080)
 

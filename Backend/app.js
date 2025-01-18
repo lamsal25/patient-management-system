@@ -218,6 +218,7 @@ app.put("/api/update/:id", async (req, res) => {
               patientId: ID
             }
           });
+          console.log("new data added")
         } else {
           // Create new medical history
           await medicalHistories.create({
@@ -227,7 +228,7 @@ app.put("/api/update/:id", async (req, res) => {
             date: history.date
             
           });
-          console.log("new table created")
+          console.log("new patient table created")
         }
       }
     }

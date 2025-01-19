@@ -188,9 +188,10 @@ app.delete("/api/delete/:id", async (req, res) => {
 // edit data //
 app.put("/api/update/:id", async (req, res) => {
   const ID = req.params.id;
-  const { name, email, age, sex, address, medical } = req.body;
+  const { name, email, age, sex, address } = req.body;
+  const medical = req.body.medicalHistories
   console.log("Received update data:", req.body);
-
+  console.log("medical history: ", medical)
   try {
     // First update patient data
     const updatedPatient = await patients.update({
@@ -218,7 +219,7 @@ app.put("/api/update/:id", async (req, res) => {
               patientId: ID
             }
           });
-          console.log("new data added")
+          
         } else {
           // Create new medical history
           await medicalHistories.create({

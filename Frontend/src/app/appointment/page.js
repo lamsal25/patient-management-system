@@ -5,7 +5,7 @@ import { useState } from 'react'
 import axios from 'axios'
 
 
-export default function Payment() {
+export default function Appointment() {
 
     const [amount, setAmount] = useState("")
 
@@ -18,7 +18,7 @@ export default function Payment() {
             const res = await axios.post("/api/initiatePayment", { amount, productCode }, {
                 headers: { 'Content-Type': 'application/json' }
             })
-
+console.log(res)
             const { paymentUrl, params } = await res.data
             console.log("payment url", paymentUrl, params)
             const form = document.createElement("form");

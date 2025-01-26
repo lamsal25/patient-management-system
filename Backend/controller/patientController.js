@@ -161,3 +161,11 @@ exports.updatePatient =  async (req, res) => {
     }
   }
   
+
+  ///  Extracting all patients records ///
+exports.allRecords =  async (req, res) => {
+  const data = await patients.findAll({ include: [{ model: medicalHistories, as: 'medicalHistory' }] })
+  console.log(data)
+  res.status(200).json(data)
+}
+

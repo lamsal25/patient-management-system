@@ -20,13 +20,7 @@ app.use('', authRoute)
 app.use('', patientRoute)
 
 
-///  Extracting all patients records ///
-app.post("/api/allRecord", async (req, res) => {
-  const data = await patients.findAll({ include: [{ model: medicalHistories, as: 'medicalHistory' }] })
-  console.log(data)
-  res.status(200).json(data)
-})
-
+ 
 
 app.listen(8080)
 console.log("server started on :", PORT) 

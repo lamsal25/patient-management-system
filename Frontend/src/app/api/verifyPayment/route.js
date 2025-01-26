@@ -13,7 +13,7 @@ export async function POST(req) {
 
     const response = await axios.post(process.env.ESEWA_STATUS_CHECK_URL, formData, {
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/x-www-form-urlencoded",
       },
     });
 

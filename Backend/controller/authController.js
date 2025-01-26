@@ -58,7 +58,7 @@ exports.login = async (req, res) => {
 
       })
       console.log("generated token: ", token)
-      res.cookie('token', token, {
+      res.cookie('sessionid', token, {
         httpOnly: true,
         sameSite: 'strict', // Prevent CSRF attacks
         maxAge: 60 * 60 * 1000
@@ -78,3 +78,10 @@ exports.login = async (req, res) => {
   }
 }
 
+
+//handle logout 
+exports.logout = async (req,res)=>{
+  console.log(req.body)
+  res.clearCookie('sessionid' )
+  return res.status(200).json({ message: 'Logout successful' });
+}

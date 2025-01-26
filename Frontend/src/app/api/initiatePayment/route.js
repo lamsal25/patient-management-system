@@ -12,9 +12,9 @@ export async function POST(req) {
     const secretKey = process.env.ESEWA_SECRET_KEY;
 
     // Signature Generation
-    const dataString = `${amount}.${merchantCode}.${transactionId}.${secretKey}`;
+    const dataString = `${amount}.${transactionId}.${productCode}`;
     const hmac = crypto.createHmac("sha256", secretKey);
-    const signature = hmac.update(dataString).digest("hex");
+    const signature = hmac.update(dataString).digest("base64");
 
     const params = {
       amt: amount,

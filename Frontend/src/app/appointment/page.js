@@ -30,7 +30,7 @@ export default function Appointment() {
 
       console.log("Payment URL:", paymentUrl);
       console.log("Payment Params:", params);
-console.log(res.data.message)
+ 
       // Redirect using a form submission
       const form = document.createElement("form");
       form.method = "POST";

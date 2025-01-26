@@ -31,8 +31,8 @@ export default function Login() {
                 },
             });
             console.log(response.data)
-            //   const token = Cookies.get('token'); // Get the cookie value
-            // console.log('Token:', token);
+            // const token = Cookies.get('token'); // Get the cookie value
+            //  console.log('Token:', token);
 
             if (response.data.message === "login success") {
                 alert(response.data.message);

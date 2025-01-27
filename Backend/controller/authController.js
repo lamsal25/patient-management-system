@@ -61,7 +61,7 @@ exports.login = async (req, res) => {
       res.cookie('sessionid', token, {
         httpOnly: true,
         sameSite: 'strict', // Prevent CSRF attacks
-        maxAge: 60 * 60 * 1000
+        maxAge: 60 * 60 * 1000  //unit is millisecond 1000ms =1sex
       })
       res.json({
         message: 'login success'

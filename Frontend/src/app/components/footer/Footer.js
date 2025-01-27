@@ -1,10 +1,10 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 import { FaFacebook, FaInstagram, FaLinkedin } from "react-icons/fa";
 
 export default function Footer() {
     return (
-
 
         < div className="bg-gradient-to-r from-[#9ab3e6] to-[#4568d0]" >
             <footer className="text-white py-6 flex flex-col md:flex-row justify-between items-center w-full">
@@ -13,7 +13,7 @@ export default function Footer() {
                     {/* Section 1: Contact Information */}
                     <div className="flex flex-col items-center md:items-start min-w-[150px] px-2 text-center md:text-left">
                         <div className="font-bold mb-4">
-                            <img src="/logo.png" alt="Logo" height={100} width={100} />
+                            <Image src="/logo.png" alt="Logo" height={100} width={100} />
                         </div>
                         <div className="mb-2">www.salesprediction.com</div>
                         <div>01-4455997</div>

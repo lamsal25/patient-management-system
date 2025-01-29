@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-
 export default function Appointment() {
   const [formData, setFormData] = useState({
     name: "",
@@ -12,8 +11,10 @@ export default function Appointment() {
     address: "",
     email: "",
     phone: "",
-    amount: "",
+    amount: 800,
   });
+
+  const [buttonName, setButtonName] = useState('')
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -26,43 +27,85 @@ export default function Appointment() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    setButtonName(e.nativeEvent.submitter.name)
+
     try {
+
       const productCode = `TXN-${Date.now()}`;
 
-      const res = await axios.post(
-        "/api/initiatePayment",
-        { amt: formData.amount, productCode },
-        {
-          headers: { "Content-Type": "application/json" },
-        }
-      );
+      if (buttonName == 'esewa') {
+        const res = await axios.post(
+          "/api/initiatePayment",
+          { amount: formData.amount, productCode },
+          {
+            headers: { "Content-Type": "application/json" },
+          }
+        );
 
-      if (!res.data.paymentUrl || !res.data.params) {
-        throw new Error("Invalid payment response");
+        if (!res.data.paymentUrl || !res.data.params) {
+          throw new Error("Invalid payment response");
+        }
+
+        const { paymentUrl, params } = res.data;
+
+        // Redirect using a form submission
+        const form = document.createElement("form");
+        form.method = "POST";
+        form.action = paymentUrl;
+
+        Object.keys(params).forEach((key) => {
+          const input = document.createElement("input");
+          input.type = "hidden";
+          input.name = key;
+          input.value = params[key];
+          form.appendChild(input);
+        });
+
+        document.body.appendChild(form);
+        form.submit();
       }
 
-      const { paymentUrl, params } = res.data;
+      else if (buttonName == 'khalti') {
+        
+          const response = await axios.post(
+            "/api/khaltiPayment",
+            { amount: formData.amount, productCode },
+            {
+              headers: { "Content-Type": "application/json" },
+            }
+          );
 
-      // Redirect using a form submission
-      const form = document.createElement("form");
-      form.method = "POST";
-      form.action = paymentUrl;
+          console.log("Backend Response:", response.data); // Debugging
 
-      Object.keys(params).forEach((key) => {
-        const input = document.createElement("input");
-        input.type = "hidden";
-        input.name = key;
-        input.value = params[key];
-        form.appendChild(input);
-      });
+          const { paymentUrl, payload, secret } =await response.data || {};
 
-      document.body.appendChild(form);
-      form.submit();
+          if (!paymentUrl || !payload || !secret) {
+            throw new Error("Missing payment details from backend");
+          }
+
+          console.log("Initiating Khalti Payment:", paymentUrl, payload);
+
+          const khaltiResponse = await axios.post(paymentUrl, payload, {
+            headers: {
+              Authorization: `Key ${secret}`,
+              "Content-Type": "application/json",
+            },
+          });
+
+          console.log("Khalti Response:", khaltiResponse.data);
+          
+          if (khaltiResponse.data.payment_url) {
+            window.location.href = khaltiResponse.data.payment_url; // Redirects user
+          } else {
+            console.error("Khalti response did not contain a payment URL.");
+          }
+      }
     } catch (error) {
       console.error("Payment initiation failed:", error);
       alert("Payment initiation failed! Check console for details.");
     }
   };
+
 
   return (
     <div className="min-h-screen flex flex-col justify-between">
@@ -189,24 +232,30 @@ export default function Appointment() {
             <input
               type="number"
               name="amount"
-              value={800}
+              value={formData.amount}
               required
               readOnly
               className="w-full border border-gray-300 p-2 rounded"
             />
           </div>
 
-          {/* Submit Button */}
-          <button
-            type="submit"
-            className="bg-green-500 text-white px-4 py-3 rounded w-full hover:bg-green-600 transition"
-          >
-            Proceed to Payment
-          </button>
+          <div className="flex  gap-5">
+            {/* Submit Button */}
+            <button
+              type="submit" name="esewa" id="esewa"
+              className="bg-green-500 text-white px-4 py-3 rounded w-full hover:bg-green-600 transition"
+            >
+              Pay via esewa
+            </button>
+            <button
+              type="submit" name="khalti"
+              className="bg-purple-800 text-white px-4 py-3 rounded w-full hover:bg-purple-600 transition"
+            >
+              Pay via Khalti
+            </button>
+          </div>
         </form>
       </div>
-
-
     </div>
   );
 }

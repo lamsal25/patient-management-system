@@ -11,7 +11,7 @@ export async function POST(req) {
    
       const paymentUrl = process.env.KHALTI_PAYMENT_URL;
        const payload = {
-           return_url : process.env.SUCCESS_URL ,
+           return_url : process.env.KHALTI_SUCCESS_URL ,
            website_url : process.env.WEBSITE_URL,
            amount : amount * 100,
            purchase_order_id :productCode ,

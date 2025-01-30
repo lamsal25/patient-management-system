@@ -14,8 +14,8 @@ export async function POST(req) {
     // Environment Variables
     const merchantCode = process.env.ESEWA_MERCHANT_CODE;
     const secretKey = process.env.ESEWA_SECRET_KEY;
-    const successUrl = process.env.SUCCESS_URL;
-    const failureUrl = process.env.FAILURE_URL;
+    const successUrl = process.env.ESEWA_SUCCESS_URL;
+    const failureUrl = process.env.ESEWA_FAILURE_URL;
 
     // ✅ Signature Generation
     const dataString = `${amount}.${transactionId}.${productCode}`;

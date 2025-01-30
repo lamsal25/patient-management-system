@@ -3,7 +3,6 @@
 import { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import axios from "axios";
-
 export default function Success() {
   const searchParams = useSearchParams();
   

@@ -66,39 +66,60 @@ export default function Appointment() {
       }
 
       else if (buttonName == 'khalti') {
-        
-          const response = await axios.post(
-            "/api/khaltiPayment",
-            { amount: formData.amount, productCode },
-            {
-              headers: { "Content-Type": "application/json" },
-            }
-          );
 
-          console.log("Backend Response:", response.data); // Debugging
-
-          const { paymentUrl, payload, secret } =await response.data || {};
-
-          if (!paymentUrl || !payload || !secret) {
-            throw new Error("Missing payment details from backend");
+        const response = await axios.post(
+          "/api/khaltiPayment",
+          { amount: formData.amount, productCode },
+          {
+            headers: { "Content-Type": "application/json" },
           }
+        );
 
-          console.log("Initiating Khalti Payment:", paymentUrl, payload);
+        console.log("Backend Response:", response.data); // Debugging
 
-          const khaltiResponse = await axios.post(paymentUrl, payload, {
+        const { paymentUrl, payload, secret } = await response.data || {};
+
+        if (!paymentUrl || !payload || !secret) {
+          throw new Error("Missing payment details from backend");
+        }
+
+        console.log("Initiating Khalti Payment:", paymentUrl, payload);
+
+        const khaltiResponse = await axios.post(paymentUrl, payload, {
+          headers: {
+            Authorization: `Key ${secret}`,
+            "Content-Type": "application/json",
+          },
+        });
+
+        console.log("Khalti Response:", khaltiResponse.data);
+
+        if (khaltiResponse.data.payment_url) {
+          window.location.href = khaltiResponse.data.payment_url; // Redirects user
+        } else {
+          console.error("Khalti response did not contain a payment URL.");
+        }
+        try {
+          const storeDetail = await axios.post("http://localhost:8080/api/payment", formData, {
             headers: {
-              Authorization: `Key ${secret}`,
-              "Content-Type": "application/json",
-            },
+              "Content-Type": "application/json"
+            }
           });
+        
+          console.log("Response from server:", storeDetail);
+        
+          // Correct way to access the ID from the response
+          const id = storeDetail.data.id;  // ✅ storeDetail.data.id, not storeDetail.id
+        
+          console.log("Stored Payment ID:", id);
+        
+          // Save the ID in localStorage
+          localStorage.setItem("payment_id", id);
+        } catch (error) {
+          console.error("Appointment details cannot be saved", error);
+        }
+        
 
-          console.log("Khalti Response:", khaltiResponse.data);
-          
-          if (khaltiResponse.data.payment_url) {
-            window.location.href = khaltiResponse.data.payment_url; // Redirects user
-          } else {
-            console.error("Khalti response did not contain a payment URL.");
-          }
       }
     } catch (error) {
       console.error("Payment initiation failed:", error);

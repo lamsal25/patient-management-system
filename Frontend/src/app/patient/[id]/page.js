@@ -1,5 +1,6 @@
 "use client";
 
+import Navbar from '@/app/components/navbar/Navbar';
 import axios from 'axios';
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -47,6 +48,8 @@ export default function Patient() {
   };
 
   return (
+    <>
+    <Navbar/>
     <div className="container mx-auto p-6">
       <h1 className="text-4xl font-bold mb-6 text-center text-gray-800">
         Patient Details
@@ -159,5 +162,6 @@ export default function Patient() {
         </div>
       )}
     </div>
+    </>
   );
 }

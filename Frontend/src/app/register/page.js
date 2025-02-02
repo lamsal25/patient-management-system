@@ -3,6 +3,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation"; // import useRouter
+import Navbar from "../components/navbar/Navbar";
 
 export default function Register() {
   const router = useRouter(); // initialize useRouter
@@ -50,6 +51,7 @@ export default function Register() {
 
   return (
     <>
+    <Navbar/>
       <div className=" min-h-screen flex bg-neutral-900 items-center justify-center bg-cover bg-center relative">
         <img src="../background.jpg" className=" opacity-40 min-h-screen bg-cover bg-center md:bg-contain" />
 

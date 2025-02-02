@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import Navbar from '../components/navbar/Navbar';
 
 
 export default function PatientRecord() {
@@ -54,6 +55,8 @@ export default function PatientRecord() {
         router.push(`/editData/${id}`); // Dynamically pass the patient's id
     };
     return (
+        <>
+        <Navbar/>
         <div className="container mx-auto p-6">
             <h1 className="text-3xl font-bold mb-4">Patient Records</h1>
 
@@ -103,5 +106,6 @@ export default function PatientRecord() {
                 <p>No any patient information...</p>
             )}
         </div>
+        </>
     );
 }

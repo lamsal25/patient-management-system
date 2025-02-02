@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import axios from "axios";
+import Navbar from "../components/navbar/Navbar";
 
 export default function Appointment() {
   const [formData, setFormData] = useState({
@@ -75,7 +76,7 @@ export default function Appointment() {
           }
         );
 
-        console.log("Backend Response:", response.data); // Debugging
+        console.log("Backend Response:", response.data);  
 
         const { paymentUrl, payload, secret } = await response.data || {};
 
@@ -129,6 +130,8 @@ export default function Appointment() {
 
 
   return (
+    <>
+    <Navbar/>
     <div className="min-h-screen flex flex-col justify-between">
       <div className="flex flex-col items-center justify-center flex-grow px-4 py-10">
         <h1 className="text-2xl font-bold mb-6">Book an Appointment</h1>
@@ -278,5 +281,6 @@ export default function Appointment() {
         </form>
       </div>
     </div>
+    </>
   );
 }

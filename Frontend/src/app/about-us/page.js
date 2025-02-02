@@ -1,7 +1,11 @@
 import React from 'react'
+import Navbar from '../components/navbar/Navbar'
+import Link from 'next/link'
 
 export default function page() {
   return (
+    <>
+    <Navbar/>
     <div className="bg-gradient-to-b from-[#E3F2FD] to-white">
       <header className="bg-blue-300 text-white text-center py-12">
         <h1 className="text-4xl font-bold mt-16">About Us</h1>
@@ -67,7 +71,7 @@ export default function page() {
         <h2 className="text-2xl font-bold text-gray-900">Committed To Your Health And Happiness</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 mt-8">
           <div className=" cursor-pointer p-4 shadow-lg rounded-lg bg-white hover:bg-[#6eacef] transition-colors">
-            <h3 className="text-xl font-bold text-gray-900">Book Appointment</h3>
+          <Link href={'/appointment'}>  <h3 className="text-xl font-bold text-gray-900">Book Appointment</h3></Link>
             
           </div>
            
@@ -75,5 +79,6 @@ export default function page() {
       </section>
  
     </div>
+    </>
   )
 }

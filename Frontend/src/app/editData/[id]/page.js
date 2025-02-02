@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "next/navigation";
+import Navbar from "@/app/components/navbar/Navbar";
 
 export default function EditData() {
   const [patient, setPatient] = useState({
@@ -104,6 +105,8 @@ export default function EditData() {
   };
 
   return (
+    <>
+    <Navbar/>
     <div className="container mx-auto textc p-6">
       <h1 className="text-3xl font-bold mb-4">Edit Patient Data</h1>
       <form
@@ -227,5 +230,6 @@ export default function EditData() {
         </button>
       </form>
     </div>
+    </>
   );
 }

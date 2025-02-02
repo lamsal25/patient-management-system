@@ -7,7 +7,7 @@ export default function Card() {
         <div className='flex flex-wrap container m-auto  justify-between  '>
             
             <div className=" mx-auto items-center md:w-80 lg:w-96 mt-16 p-8 border border-indigo-300 rounded-2xl hover:shadow-xl hover:shadow-indigo-50 flex flex-col ">
-                <img src="/haelthcare.jpg" className="shadow rounded-lg overflow-hidden border" />
+                <img src="/patientrecord.jpg" className="shadow rounded-lg overflow-hidden border" />
                 <div className="mt-8">
                     <h4 className="font-bold text-xl">Patient Record</h4>
                     <p className="mt-2 text-gray-600">
@@ -19,7 +19,7 @@ export default function Card() {
                 </div>
             </div>
             <div className=" mx-auto items-center md:w-80 lg:w-96 mt-16 p-8 border border-indigo-300 rounded-2xl hover:shadow-xl hover:shadow-indigo-50 flex flex-col ">
-                <img src="/haelthcare.jpg" className="shadow rounded-lg overflow-hidden border" />
+                <img src="/appointment.jpg" className="shadow rounded-lg overflow-hidden border" />
                 <div className="mt-8">
                     <h4 className="font-bold text-xl">Appointment Scheduling</h4>
                     <p className="mt-2 text-gray-600">
@@ -31,7 +31,7 @@ export default function Card() {
                 </div>
             </div>
             <div className=" mx-auto items-center md:w-80 mt-16 lg:w-96 p-8 border border-indigo-300 rounded-2xl hover:shadow-xl hover:shadow-indigo-50 flex flex-col">
-                <img src="/haelthcare.jpg" className="shadow rounded-lg overflow-hidden border" />
+                <img src="/medical record.jpg" className="shadow rounded-lg overflow-hidden border" />
                 <div className="mt-8">
                     <h4 className="font-bold text-xl">Electronic Medical Records</h4>
                     <p className="mt-2 text-gray-600">

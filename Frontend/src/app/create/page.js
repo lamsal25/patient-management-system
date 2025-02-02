@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import axios from 'axios';
+import Navbar from '../components/navbar/Navbar';
 const NewPatientForm = () => {
     const [patient, setPatient] = useState({
         name: '',
@@ -59,6 +60,8 @@ const NewPatientForm = () => {
     };
 
     return (
+        <>
+        <Navbar/>
         <div className="container mx-auto  textc p-6">
             <h1 className="text-3xl font-bold mb-4 "> Patient Form</h1>
             <form onSubmit={handleSubmit} className="bg-white shadow-lg rounded-lg p-6 space-y-4 border">
@@ -149,6 +152,7 @@ const NewPatientForm = () => {
                                 onChange={(e) => handleHistoryChange(index, e)}
                                 className="border p-2 rounded w-full"
                                 required
+                                max={new Date().toISOString().split("T")[0]}  // Restricts selection to today or earlier
                             />
                             <button
                                 type="button"
@@ -173,6 +177,7 @@ const NewPatientForm = () => {
                 </button>
             </form>
         </div>
+        </>
     );
 };
 
